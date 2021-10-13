@@ -13,12 +13,16 @@ def is_palindrome(n):
         return True
     else:
         return False
+
+
 def test_is_palindrome():
     assert is_palindrome(12) is False
     assert is_palindrome(100) is False
     assert is_palindrome(121) is True
     assert is_palindrome(1331) is True
     assert is_palindrome(1) is True
+
+
 def all_palindrome(lst):
     '''
     Determina daca toate numerele dintr-o lista sunt palindrom.
@@ -29,6 +33,8 @@ def all_palindrome(lst):
         if not is_palindrome(x):
             return False
     return True
+
+
 def test_all_palindrome():
     assert all_palindrome([1]) is True
     assert all_palindrome([11, 414, 525]) is True
@@ -50,12 +56,16 @@ def is_prime(n):
     else:
         return False
     return True
+
+
 def test_is_prime():
     assert is_prime(1) is False
     assert is_prime(2) is True
     assert is_prime(7) is True
     assert is_prime(12) is False
     assert is_prime(11) is True
+
+
 def all_prime_digits(lst):
     """
     Determina daca toate numerele dintr-o lista sunt numere a caror cifre sunt prime.
@@ -68,12 +78,54 @@ def all_prime_digits(lst):
                 return False
             x = x // 10
     return True
+
+
 def test_allPrimeDigits():
     assert all_prime_digits([]) is True
     assert all_prime_digits([5, 7, 12]) is False
     assert all_prime_digits([23, 37, 53]) is True
     assert all_prime_digits([1, 101, 204]) is False
     assert all_prime_digits([3, 5, 7]) is True
+
+
+def suma_numere(lst):
+    """
+    Calculeaza suma unor numere dintr-o lista.
+    :param lst: lista de numere intregi
+    :return:suma nr. din lista
+    """
+    s = 0
+    for i in range(len(lst)):
+        s = s + lst[i]
+    return s
+
+
+def test_suma_numere():
+    assert suma_numere([1, 2, 3]) == 6
+    assert suma_numere([1]) == 1
+    assert suma_numere([10, 20, 35]) == 65
+
+
+def get_longest_sum_is_prime(lst: list[int]) -> list[int]:
+    """
+    Determina subsecventa de numere a caror suma e nr prim.
+    :param lst: lista de nr. intregi
+    :return: subsecventa maxima a caror suma e numar prim
+    """
+    result = []
+    for i in range(len(lst)):
+        for j in range(i,len(lst)):
+            if is_prime(suma_numere(lst[i:j+1])) == True and len(lst[i:j+1]) > len(result):
+                result = lst[i:j+1]
+    return result
+
+
+def test_get_longest_sum_is_prime():
+    assert get_longest_sum_is_prime([1, 2, 3, 6]) == [2, 3, 6]
+    assert get_longest_sum_is_prime([2, 4, 5, 10]) == [2, 4, 5]
+    assert get_longest_sum_is_prime([1, 7]) == [7]
+    assert get_longest_sum_is_prime([5, 6, 3, 5]) == [5, 6, 3, 5]
+    assert get_longest_sum_is_prime([1, 10, 20]) == [1, 10, 20]
 
 
 def get_longest_all_palindromes(lst: list[int]) -> list[int]:
@@ -88,6 +140,8 @@ def get_longest_all_palindromes(lst: list[int]) -> list[int]:
             if all_palindrome(lst[i:j + 1]) and len(lst[i:j + 1]) > len(result):
                 result = lst[i:j+1]
     return result
+
+
 def test_get_longest_all_palindromes():
     assert get_longest_all_palindromes([45, 122, 121, 252]) == [121, 252]
     assert get_longest_all_palindromes([154, 75, 100]) == []
@@ -108,6 +162,8 @@ def get_longest_prime_digits(lst: list[int]) -> list[int]:
             if all_prime_digits(lst[i:j+1]) and len(lst[i:j+1]) > len(result):
                 result = lst[i:j+1]
     return result
+
+
 def test_get_longest_prime_digits():
     assert get_longest_prime_digits([]) == []
     assert get_longest_prime_digits([1, 3, 7]) == [3, 7]
@@ -119,10 +175,12 @@ def test_get_longest_prime_digits():
 def all_tests():
     test_is_palindrome()
     test_all_palindrome()
+    test_suma_numere()
     test_is_prime()
     test_allPrimeDigits()
     test_get_longest_all_palindromes()
     test_get_longest_prime_digits()
+    test_get_longest_sum_is_prime()
 
 
 def citire_lista():
@@ -138,7 +196,9 @@ def print_Menu():
     print("1. Citire date.")
     print("2. Determinare cea mai lungă subsecvență cu proprietatea ca toate elementele sunt palindrom")
     print("3. Determinare cea mai lungă subsecvență cu proprietatea ca toate nr. au cifrele prime")
-    print("4. Iesire")
+    print("4. Determinare cea mai lunga subsecvență cu proprietatea ca suma nr. este prima")
+    print("5. Iesire")
+
 
 def main():
     all_tests()
@@ -152,6 +212,8 @@ def main():
         elif optiune == "3":
             print(get_longest_prime_digits(list))
         elif optiune == "4":
+            print(get_longest_sum_is_prime(list))
+        elif optiune == "5":
             break
         else:
             print("Optiune gresita. Incercati din nou.")
